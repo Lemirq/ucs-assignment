@@ -86,8 +86,7 @@ public class PayrollSystem {
                                     "Enter the hourly rate of the new sales associate (between $16.50 and $19.75)");
                             double hourlyRate = getValidDouble();
                             while (hourlyRate < 16.50 || hourlyRate > 19.75) {
-                                System.out
-                                        .println("Invalid hourly rate. Please enter a rate between $16.50 and $19.75");
+                                printRed("Invalid hourly rate. Please enter a rate between $16.50 and $19.75");
                                 hourlyRate = getValidDouble();
                             }
                             employees.add(new SalesAssociate(firstName, lastName, makeNewEmployeeID(), hourlyRate));
@@ -103,7 +102,7 @@ public class PayrollSystem {
                     }
 
                     // print employee info
-                    System.out.println("Employee added: " + employees.get(employees.size() - 1).toString());
+                    printGreen("Employee added: " + employees.get(employees.size() - 1).toString());
                     break;
                 case 2:
                     printHeader("Pay an employee");
@@ -153,21 +152,24 @@ public class PayrollSystem {
                     Employee emp = getEmployee("fire");
                     if (emp != null) {
                         employees.remove(emp);
-                        System.out.println("Employee removed");
-                        System.out.println("GET OUTTTTT!!!!!");
+                        printGreen("Employee removed");
+                        printRed("GET OUTTTTT!!!!!");
                         // play sound
                         clip.start();
                         // sleep for3 seconds
                         try {
-                            Thread.sleep(3000);
+                            Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        // reset to start
+                        clip.stop();
+                        clip.setFramePosition(0);
                     }
 
                     break;
                 case 6:
-                    System.out.println("Goodbye!");
+                    printGreen("Goodbye!");
                     sc.close();
                     System.exit(0);
                     break;
@@ -193,7 +195,7 @@ public class PayrollSystem {
     void printHeader(String header) {
         System.out.println();
         printSeparator();
-        System.out.println(header);
+        printGreen(header);
         printSeparator();
     }
 
@@ -213,7 +215,7 @@ public class PayrollSystem {
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid non-negative number");
+                printRed("Please enter a valid non-negative number");
             }
         }
 
@@ -236,7 +238,7 @@ public class PayrollSystem {
                 }
                 break;
             } catch (NumberFormatException e) {
-                System.out.println("Please enter a valid non-negative number");
+                printRed("Please enter a valid non-negative number");
             }
         }
 
@@ -281,7 +283,7 @@ public class PayrollSystem {
         // print list of employees with that first name
 
         System.out.println("Enter the first name of the employee:");
-        String firstName = sc.nextLine();
+        String firstName = sc.nextLine().trim();
         ArrayList<Employee> matchingEmployees = new ArrayList<Employee>();
         for (Employee employee : employees) {
             if (employee.getFirstName().equalsIgnoreCase(firstName)) {
@@ -290,11 +292,11 @@ public class PayrollSystem {
         }
 
         if (matchingEmployees.size() == 0) {
-            System.out.println("No employees with that first name found");
+            printRed("No employees with that first name found");
             return null;
         }
 
-        System.out.println("Employees with that first name:");
+        printGreen("Employees with that first name:");
         printEmployees(matchingEmployees);
 
         return matchingEmployees;
@@ -326,8 +328,36 @@ public class PayrollSystem {
             }
         }
 
-        System.out.println("No employee with that ID found");
+        printRed("No employee with that ID found");
         return null;
+    }
+
+    /**
+     * Print a message with color
+     * 
+     * @param color   the color to print
+     * @param message the message to print
+     */
+    static void printWithColor(String color, String message) {
+        System.out.println(color + message + ANSI_RESET);
+    }
+
+    /**
+     * Print a message in green
+     * 
+     * @param message the message to print
+     */
+    static void printGreen(String message) {
+        printWithColor(ANSI_GREEN, message);
+    }
+
+    /**
+     * Print a message in red
+     * 
+     * @param message the message to print
+     */
+    static void printRed(String message) {
+        printWithColor(ANSI_RED, message);
     }
 
     /**

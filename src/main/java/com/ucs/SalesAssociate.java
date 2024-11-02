@@ -32,7 +32,9 @@ public class SalesAssociate extends Employee {
     public void pay(int hoursWorked, boolean isHourly) {
         if (isHourly) {
             double earned = getHourlyRate() * hoursWorked;
-            System.out.printf("Sales Associate %s %s has been paid $%.2f\n", this.getFirstName(), this.getLastName(),
+            System.out.printf(
+                    PayrollSystem.ANSI_GREEN + "Sales Associate %s %s has been paid $%.2f\n" + PayrollSystem.ANSI_RESET,
+                    this.getFirstName(), this.getLastName(),
                     earned);
             moneyEarned += earned;
         }

@@ -30,7 +30,9 @@ public class Manager extends Employee {
     public void pay(int weeksWorked, boolean isHourly) {
         if (!isHourly) {
             double earned = getWeeklySalary() * weeksWorked;
-            System.out.printf("Manager %s %s has been paid $%.2f\n", this.getFirstName(), this.getLastName(), earned);
+            System.out.printf(
+                    PayrollSystem.ANSI_GREEN + "Manager %s %s has been paid $%.2f\n" + PayrollSystem.ANSI_RESET,
+                    this.getFirstName(), this.getLastName(), earned);
         }
     }
 
